@@ -33,12 +33,13 @@ export GOPATH=~/Workspace/
 ## PS1
 ## ------------------------------------------------------------------
 parse_git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
  }
+
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     PS1='🚨 \\h: '
 else
-    PS1="\[\033[94m\]$(parse_git_branch)\]\[\033[0m\] 🖍 : "
+    PS1="\$(parse_git_branch) 🖍  "
 fi
 
 date | awk '{print "[!][" $5 "] Reloaded"}'
