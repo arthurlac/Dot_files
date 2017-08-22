@@ -2,11 +2,13 @@ set nocompatible
 syntax on
 filetype plugin on
 
-set nowrap        " don't wrap lines
-set tabstop=4     " a tab is four spaces
+set wrap          " wrap lines
+set tabstop=2     " a tab is two spaces
 set softtabstop=0 " a
-set shiftwidth=4  " number of spaces to use for autoindenting
+set shiftwidth=2  " number of spaces to use for autoindenting
 set expandtab     " On pressing tab, insert 4 spaces
+
+set pastetoggle=<leader>v "paste toggle is \p
 
 set nosmartindent
 set autoindent
@@ -80,7 +82,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ocaml_checkers = ['merlin']
 
