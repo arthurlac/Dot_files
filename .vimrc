@@ -8,7 +8,7 @@ set softtabstop=0 " a
 set shiftwidth=2  " number of spaces to use for autoindenting
 set expandtab     " On pressing tab, insert 4 spaces
 
-set pastetoggle=<leader>v "paste toggle is \p
+set pastetoggle=<leader>p "paste toggle is \p
 
 set nosmartindent
 set autoindent
@@ -18,7 +18,18 @@ colorscheme onedark
 filetype plugin indent on
 
 set number        " Line numbers
-set ruler         " Bit at the bottom.
+
+set statusline+=%#warningmsg#                "Syntastic
+set statusline+=%{SyntasticStatuslineFlag()} "Syntastic
+set statusline+=%*                           "Syntastic
+set statusline+=%=                           "left/right separator
+set statusline+=%h                           "help file flag
+set statusline+=%m                           "modified flag
+set statusline+=%r                           "read only flag
+set statusline+=\ %t                         "tail of the filename
+set statusline+=\ %c,                        "cursor column
+set statusline+=%l/%L                        "cursor line/total lines
+set statusline+=\ %P                         "percent through file
 
 set showcmd       " Show command, i.e. key entered.
 
@@ -34,10 +45,11 @@ set foldmethod=indent   " Fold based on indent
 set foldnestmax=3       " Deepest fold is 3 levels
 set foldlevelstart=10   " open most folds by default
 
-set clipboard=unnamed
-
 " Show opts in file selec
 set wildmenu
+
+" highlight current line
+set cursorline
 
 " Change split loc
 set splitright
@@ -74,11 +86,6 @@ map <right> <nop>
 map K i<Enter><Esc>
 
 execute pathogen#infect()
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
