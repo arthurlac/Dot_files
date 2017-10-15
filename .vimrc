@@ -8,8 +8,6 @@ set softtabstop=0 " a
 set shiftwidth=2  " number of spaces to use for autoindenting
 set expandtab     " On pressing tab, insert 4 spaces
 
-set pastetoggle=<leader>p "paste toggle is \p
-
 set nosmartindent
 set autoindent
 
@@ -82,16 +80,23 @@ map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
-" let K = inv J
-map K i<Enter><Esc>
-
 execute pathogen#infect()
 
+"" http://www.stephendiehl.com/posts/vim_2016.html
+map <leader>a= :Tabularize /=<CR>
+map <leader>a; :Tabularize /::<CR>
+map <leader>a- :Tabularize /-><CR>
+
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ocaml_checkers = ['merlin']
+let g:syntastic_auto_loc_list            = 1
+let g:syntastic_check_on_open            = 0
+let g:syntastic_check_on_wq              = 0
+
+let g:syntastic_c_check_header = 1
+let g:syntastic_c_compiler     = 'clang'
+
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_ocaml_checkers  = ['merlin']
 
 " ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
 let s:opam_share_dir = system("opam config var share")
