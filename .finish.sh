@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------
 ## Aliases. Yes I am lazy and bad at spelling.
 ## ------------------------------------------------------------------
-alias gts="git status"
+alias gts="git status -sb"
 alias gtc="git checkout"
 alias gtb="git branch"
 alias gtd="git diff"
@@ -13,6 +13,8 @@ alias ls="ls -G" #Color ls results
 alias ll='ls -hlSr'
 alias cd..="cd .." # Because typing a space is so hard.
 alias rld=". ~/.finish.sh"
+
+alias py3="python3"
 
 ## ------------------------------------------------------------------
 ## Path modifications.
