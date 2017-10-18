@@ -84,7 +84,7 @@ execute pathogen#infect()
 
 "" http://www.stephendiehl.com/posts/vim_2016.html
 map <leader>a= :Tabularize /=<CR>
-map <leader>a; :Tabularize /::<CR>
+map <leader>a: :Tabularize /:<CR>
 map <leader>a- :Tabularize /-><CR>
 
 let g:syntastic_always_populate_loc_list = 1
@@ -94,9 +94,14 @@ let g:syntastic_check_on_wq              = 0
 
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler     = 'clang'
+let g:syntastic_c_include_dirs = ['inc']
 
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_ocaml_checkers  = ['merlin']
+
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "passive_filetypes": ["tex"] }
 
 " ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
 let s:opam_share_dir = system("opam config var share")
