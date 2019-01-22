@@ -2,11 +2,12 @@ set nocompatible
 syntax on
 filetype plugin on
 
-set wrap          " wrap lines
-set tabstop=2     " a tab is two spaces
+set noswapfile
+
+set tabstop=4     " a tab is four spaces
 set softtabstop=0 " a
-set shiftwidth=2  " number of spaces to use for autoindenting
-set expandtab     " On pressing tab, insert 4 spaces
+set shiftwidth=4  " number of spaces to use for autoindenting
+set expandtab
 
 set nosmartindent
 set autoindent
@@ -25,17 +26,19 @@ set statusline+=%h                           "help file flag
 set statusline+=%m                           "modified flag
 set statusline+=%r                           "read only flag
 set statusline+=\ %t                         "tail of the filename
-set statusline+=\ %c,                        "cursor column
-set statusline+=%l/%L                        "cursor line/total lines
+set statusline+=\ col:%c                     "cursor line
+set statusline+=\ %L                         "total lines
 set statusline+=\ %P                         "percent through file
 
 set showcmd       " Show command, i.e. key entered.
 
 set hlsearch      " highlight search terms
+set ignorecase    " Ignore case
+set smartcase     " Ignore case until upper case is used in search
 set incsearch     " show search matches as you type
 
 " Show invis chars
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set listchars=eol:§,tab:>-,trail:~,extends:>,precedes:<
 set list
 
 " Folds
@@ -64,15 +67,23 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" increment numbers
+" visual g<C-a>
+noremap + <c-a>
+noremap - <c-x>
 
 " Newlines and inser char
 nmap oo o<Esc>
 nmap OO O<Esc>
 nnoremap <Space> i_<Esc>r
-"
+
+onoremap <silent> j gj
+onoremap <silent> k gk
+
 " move to beginning/end of line
 nnoremap B ^
 nnoremap E $
+nnoremap Y y$
 
 " Don't use arrows :/
 map <up> <nop>
@@ -80,25 +91,71 @@ map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
+au BufNewFile,BufRead *.md setlocal spell noet ts=4 sw=4
+au BufNewFile,BufRead *.tex setlocal spell et ts=4 sw=4
+au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4
+autocmd FileType gitcommit setlocal spell
+
 execute pathogen#infect()
 
+" ==================== Tabularize ====================
 "" http://www.stephendiehl.com/posts/vim_2016.html
 map <leader>a= :Tabularize /=<CR>
 map <leader>a: :Tabularize /:<CR>
-map <leader>a- :Tabularize /-><CR>
+map <leader>a- :Tabularize /-<CR>
 
+" ==================== delimitMate ====================
+" src = github.com/jessfraz/.vim
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_smart_quotes = 1
+let g:delimitMate_expand_inside_quotes = 0
+let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
+
+" ==================== Vim-go ====================
+" src = github.com/jessfraz/.vim
+let g:go_fmt_fail_silently = 0
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_term_enabled = 1
+let g:go_snippet_engine = "neosnippet"
+
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+
+let g:go_auto_sameids = 0
+let g:go_auto_type_info = 1
+
+au FileType go nmap <Leader>s <Plug>(go-def-split)
+au FileType go nmap <Leader>v <Plug>(go-def-vertical)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>l <Plug>(go-metalinter)
+
+au FileType go nmap <leader>r  <Plug>(go-run)
+
+au FileType go nmap <leader>b  <Plug>(go-build)
+au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>dt  <Plug>(go-test-compile)
+au FileType go nmap <Leader>d <Plug>(go-doc)
+
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
+" ==================== Syntastic ====================
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 0
 let g:syntastic_check_on_wq              = 0
 
-let g:syntastic_c_check_header = 1
-let g:syntastic_c_compiler     = 'clang'
-let g:syntastic_c_include_dirs = ['inc']
-
-let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_pyflakes_exe = 'python3 -m pyflakes'
+let g:syntastic_python_checkers = ['pyflakes']
 let g:syntastic_ocaml_checkers  = ['merlin']
-
+let g:syntastic_go_checkers = ['gometalinter.v2', 'govet', 'errcheck', 'go']
 let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "passive_filetypes": ["tex"] }
@@ -135,8 +192,6 @@ for tool in s:opam_packages
   endif
 endfor
 " ## end of OPAM user-setup addition for vim / base ## keep this line
-" ## added by OPAM user-setup for vim / ocp-indent ## e46aecf82e46907156237f73ea993e68 ## you can edit, but keep this line
-if count(s:opam_available_tools,"ocp-indent") == 0
-  source "/Users/Artlac/.opam/system/share/vim/syntax/ocp-indent.vim"
-endif
-" ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
+
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
