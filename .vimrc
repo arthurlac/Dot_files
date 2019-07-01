@@ -4,19 +4,23 @@ filetype plugin on
 
 set noswapfile
 
-set tabstop=4     " a tab is four spaces
-set softtabstop=0 " a
-set shiftwidth=4  " number of spaces to use for autoindenting
+set tabstop=4      " a tab is four spaces
+set softtabstop=0  " a
+set shiftwidth=4   " number of spaces to use for autoindenting
 set expandtab
+set colorcolumn=80 " tell me when I'm past 80 col
+set number         " Line numbers
 
 set nosmartindent
 set autoindent
 
+" Show invis chars
+set listchars=eol:§,tab:>-,trail:~,extends:>,precedes:<
+set list
+
 colorscheme onedark
 
 filetype plugin indent on
-
-set number        " Line numbers
 
 set statusline+=%#warningmsg#                "Syntastic
 set statusline+=%{SyntasticStatuslineFlag()} "Syntastic
@@ -36,10 +40,6 @@ set hlsearch      " highlight search terms
 set ignorecase    " Ignore case
 set smartcase     " Ignore case until upper case is used in search
 set incsearch     " show search matches as you type
-
-" Show invis chars
-set listchars=eol:§,tab:>-,trail:~,extends:>,precedes:<
-set list
 
 " Folds
 set foldmethod=indent   " Fold based on indent
